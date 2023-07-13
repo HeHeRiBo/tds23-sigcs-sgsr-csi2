@@ -1,0 +1,17 @@
+Django==4.2.3
+requests==2.31.0
+django-json-widget==1.1.1
+django-extensions==3.2.3
+djangorestframework==3.14.0
+drf-spectacular==0.26.3
+drf-spectacular-sidecar==2023.7.1
+Markdown==3.4.3
+django-filter==23.2
+
+pytest-django
+pytest
+black
+flake8
+pur
+pylint
+coverage
