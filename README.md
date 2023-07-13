@@ -1,6 +1,6 @@
 # Sistema Integrado de Gestión de Centros de Salud
 
-    Este repositorio corresponde a un *caso de estudio ficticio* creado para el Taller de Software del Diploma de Postítulo en Ingeniería de Software (2023) del Departamento de Ciencias de la Computación de la Universidad de Chile.
+Este repositorio corresponde a un __caso de estudio ficticio__ creado para el Taller de Software del Diploma de Postítulo en Ingeniería de Software (2023) del Departamento de Ciencias de la Computación de la Universidad de Chile.
 
 ## Subsistema de Gestión de Suministros y Recursos
 
