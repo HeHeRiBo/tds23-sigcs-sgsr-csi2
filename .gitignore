@@ -1,0 +1,6 @@
+__pycache__
+venv
+.pytest_cache
+db.sqlite3
+app/inventario/migrations/000*.py
+app/stock/migrations/000*.py
