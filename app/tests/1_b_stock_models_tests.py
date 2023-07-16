@@ -7,20 +7,19 @@ from stock.models import Lote, Consumo, Stock, Movimiento
 
 @pytest.mark.django_db
 def test_lote_model():
-    m = Medicamento.objects.all().first()
-    fv = date(2024, 7, 10)
-    lote = Lote(
+    medicamento = Medicamento.objects.all().first()
+    fecha_vencimiento = date(2024, 7, 10)
+    lote = Lote.objects.create(
         codigo="AU_PRMINC_100001_CL_CENABAST_20230710_20240816",
-        medicamento=m,
+        medicamento=medicamento,
         cantidad=500,
-        fecha_vencimiento=fv,
+        fecha_vencimiento=fecha_vencimiento,
     )
-    lote.save()
 
     assert lote.codigo == "AU_PRMINC_100001_CL_CENABAST_20230710_20240816"
-    assert lote.medicamento == m
+    assert lote.medicamento == medicamento
     assert lote.cantidad == 500
-    assert lote.fecha_vencimiento == fv
+    assert lote.fecha_vencimiento == fecha_vencimiento
 
     assert str(lote) == lote.codigo, "se debe usar el código como representación str del objeto"
 
@@ -30,65 +29,65 @@ def test_lote_model():
 
 @pytest.mark.django_db
 def test_consumo_model():
-    i = Institucion.objects.all().first()
-    m = Medicamento.objects.all().first()
-    f = date.today()
+    institucion = Institucion.objects.all().first()
+    medicamento = Medicamento.objects.all().first()
+    fecha = date.today()
 
-    consumo = Consumo(
-        institucion=i,
-        medicamento=m,
+    consumo = Consumo.objects.create(
+        institucion=institucion,
+        medicamento=medicamento,
         cantidad=0,
     )
-    consumo.save()
 
-    assert consumo.institucion == i
-    assert consumo.medicamento == m
+    assert consumo.institucion == institucion
+    assert consumo.medicamento == medicamento
     assert consumo.cantidad == 0
-    assert consumo.fecha == f, "la fecha por defecto debe ser la del día en que se genera el consumo"
+    assert consumo.fecha is not None, "la fecha por defecto debe ser la del día en que se genera el consumo"
+    assert consumo.fecha == fecha, "la fecha por defecto debe ser la del día en que se genera el consumo"
 
-    consumo.cantidad = -500
-    consumo.save()
+    consumo.cantidad = -5
+    with pytest.raises(IntegrityError):
+        consumo.save()
 
-    assert consumo.cantidad < 0, "consumo debe ser mayor o igual que cero"
+        consumo = Consumo.objects.get(id=consumo.id)
+        assert consumo.cantidad >= 0, "consumo debe ser mayor o igual que cero"
 
 
 @pytest.mark.django_db
 def test_stock_model():
-    q = Quiebre.objects.all().first()
-    f = date.today()
+    quiebre = Quiebre.objects.all().first()
+    fecha = date.today()
 
-    s = Stock(
-        institucion=q.institucion,
-        medicamento=q.medicamento,
+    s = Stock.objects.create(
+        institucion=quiebre.institucion,
+        medicamento=quiebre.medicamento,
     )
-    s.save()
 
-    assert s.institucion == q.institucion
-    assert s.medicamento == q.medicamento
+    assert s.institucion == quiebre.institucion
+    assert s.medicamento == quiebre.medicamento
     assert s.cantidad == 0, "el stock inicial siempre debe ser cero"
     assert s.has_quiebre is False, "el stock inicial no debe tener quiebre"
-    assert s.fecha_actualizacion == f, "la fecha de actualizacion es siempre la actual"
+    assert s.fecha_actualizacion == fecha, "la fecha de actualizacion es siempre la actual"
 
     _, created = Stock.objects.get_or_create(
-        institucion=q.institucion,
-        medicamento=q.medicamento,
+        institucion=quiebre.institucion,
+        medicamento=quiebre.medicamento,
     )
     assert not created, "institucion y medicamento deben ser unique together"
 
 
 @pytest.mark.django_db
 def test_movimiento_model():
-    i = Institucion.objects.all().first()
+    institucion = Institucion.objects.all().first()
     lote = Lote.objects.all().first()
-    f = date.today()
+    fecha = date.today()
 
-    m = Movimiento(institucion=i, lote=lote)
-    m.save()
+    movimiento = Movimiento.objects.create(institucion=institucion, lote=lote)
 
-    assert m.institucion == i
-    assert m.lote == lote
-    assert m.fecha == f, "la fecha por defecto debe ser la del día en que se genera el movimiento"
+    assert movimiento.institucion == institucion
+    assert movimiento.lote == lote
+    assert movimiento.fecha == fecha, "la fecha por defecto debe ser la del día en que se genera el movimiento"
 
     with pytest.raises(IntegrityError) as exc_info:
-        Movimiento.objects.create(institucion=i, lote=lote), "hola"
+        Movimiento.objects.create(institucion=institucion, lote=lote)
     assert str(exc_info.value) == "UNIQUE constraint failed: stock_movimiento.lote_id", "un lote no puede estar en más de una institución"
