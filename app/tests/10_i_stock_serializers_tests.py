@@ -26,7 +26,7 @@ def test_lote_serializer():
     serialized_data = LoteSerializer(data=data)
     serialized_object = LoteSerializer(lote)
     serialized_data.is_valid()
-    
+
     assert json.dumps(serialized_object.data) == json.dumps(data), "data serializada no tiene el orden correcto"
     assert serialized_data.errors == {}, f"Errores: {serialized_data.errors}"
 
