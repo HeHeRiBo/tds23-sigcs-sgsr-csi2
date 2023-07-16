@@ -2,11 +2,12 @@ import pytest
 from datetime import date
 from django.db.utils import IntegrityError
 from maestro.models import Institucion, Medicamento, Quiebre
-from stock.models import Lote, Consumo, Stock, Movimiento
 
 
 @pytest.mark.django_db
 def test_lote_model():
+    from stock.models import Lote
+
     medicamento = Medicamento.objects.all().first()
     fecha_vencimiento = date(2024, 7, 10)
     lote = Lote.objects.create(
@@ -29,6 +30,8 @@ def test_lote_model():
 
 @pytest.mark.django_db
 def test_consumo_model():
+    from stock.models import Consumo
+
     institucion = Institucion.objects.all().first()
     medicamento = Medicamento.objects.all().first()
     fecha = date.today()
@@ -55,6 +58,8 @@ def test_consumo_model():
 
 @pytest.mark.django_db
 def test_stock_model():
+    from stock.models import Stock
+
     quiebre = Quiebre.objects.all().first()
     fecha = date.today()
 
@@ -78,6 +83,8 @@ def test_stock_model():
 
 @pytest.mark.django_db
 def test_movimiento_model():
+    from stock.models import Lote, Movimiento
+
     institucion = Institucion.objects.all().first()
     lote = Lote.objects.all().first()
     fecha = date.today()
