@@ -14,11 +14,9 @@ def test_add_movimientos(client):
         content_type="application/json",
     )
     assert response.status_code == 201, "endpoint no encontrado"
-
-    with pytest.raises(AttributeError):
-        assert response.data["institucion"] == 1
-        assert response.data["lote"] == 1
-        assert response.data["fecha"] == str(date.today())
+    assert response.data["institucion"] == 1
+    assert response.data["lote"] == 1
+    assert response.data["fecha"] == str(date.today())
 
 
 @pytest.mark.django_db
@@ -33,9 +31,7 @@ def test_list_movimientos(client):
     )
     response = client.get("/stock/movimientos", content_type="application/json")
     assert response.status_code == 200, "endpoint no encontrado"
-
-    with pytest.raises(AttributeError):
-        assert len(response.data) == 1, "se agregó más de un movimiento en la base de datos"
+    assert len(response.data) == 1, "se agregó más de un movimiento en la base de datos"
 
 
 @pytest.mark.django_db
@@ -50,9 +46,7 @@ def test_get_movimientos(client):
     )
     response = client.get("/stock/movimientos/1", content_type="application/json")
     assert response.status_code == 200, "endpoint no encontrado"
-
-    with pytest.raises(AttributeError):
-        assert response.data["id"] == 1, "no se obtuvieron movimientos"
+    assert response.data["id"] == 1, "no se obtuvieron movimientos"
 
 
 @pytest.mark.django_db
@@ -98,12 +92,10 @@ def test_add_consumo(client):
         content_type="application/json",
     )
     assert response.status_code == 201, "endpoint no encontrado"
-
-    with pytest.raises(AttributeError):
-        assert response.data["institucion"] == 1
-        assert response.data["cantidad"] == 0
-        assert response.data["medicamento"] == 26
-        assert response.data["fecha"] == str(date.today())
+    assert response.data["institucion"] == 1
+    assert response.data["cantidad"] == 0
+    assert response.data["medicamento"] == 26
+    assert response.data["fecha"] == str(date.today())
 
 
 @pytest.mark.django_db
@@ -118,10 +110,8 @@ def test_list_consumo(client):
         content_type="application/json",
     )
     response = client.get("/stock/consumos", content_type="application/json")
-    assert response.status_code == 200, "endpoint no encontrado"
-
-    with pytest.raises(AttributeError):
-        assert len(response.data) == 1, "se agregó más de un consumo en la base de datos"
+    assert response.status_code == 200, "endpoint no encontrado"    
+    assert len(response.data) == 1, "se agregó más de un consumo en la base de datos"
 
 
 @pytest.mark.django_db
@@ -136,10 +126,8 @@ def test_get_consumo(client):
         content_type="application/json",
     )
     response = client.get("/stock/consumos/1", content_type="application/json")
-    assert response.status_code == 200, "endpoint no encontrado"
-
-    with pytest.raises(AttributeError):
-        assert response.data["id"] == 1, "no se obtuvieron consumos"
+    assert response.status_code == 200, "endpoint no encontrado"    
+    assert response.data["id"] == 1, "no se obtuvieron consumos"
 
 
 @pytest.mark.django_db
