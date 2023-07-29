@@ -2,10 +2,10 @@ import pytest
 import json
 from maestro.models import Institucion, Medicamento, Item, Equipamiento, Quiebre
 
+
 @pytest.mark.django_db
 def test_institucion_serializer():
     from maestro.serializers import InstitucionSerializer
-
 
     institucion = Institucion.objects.create(
         nombre="Hospital felix bulnes de prado y ochagavia",
@@ -16,7 +16,7 @@ def test_institucion_serializer():
         factor=0.5,
     )
     data = {
-        "id": institucion.id, 
+        "id": institucion.id,
         "nombre": institucion.nombre,
         "tipo": institucion.tipo,
         "titularidad": institucion.titularidad,
@@ -78,6 +78,7 @@ def test_medicamento_serializer():
     assert json.dumps(serialized_object.data) == json.dumps(data), "data serializada no tiene el orden correcto"
     assert serialized_data.errors == {}, f"Errores: {serialized_data.errors}"
 
+
 @pytest.mark.django_db
 def test_item_serializer():
     from maestro.serializers import ItemSerializer
@@ -99,15 +100,12 @@ def test_item_serializer():
     assert json.dumps(serialized_object.data) == json.dumps(data), "data serializada no tiene el orden correcto"
     assert serialized_data.errors == {}, f"Errores: {serialized_data.errors}"
 
+
 @pytest.mark.django_db
 def test_equipamiento_serializer():
     from maestro.serializers import EquipamientoSerializer
 
-    equipamiento = Equipamiento.objects.create(
-        item=Item.objects.all().first(),
-        marca="HYUNDAI",
-        modelo="SAMS1XY"
-    )
+    equipamiento = Equipamiento.objects.create(item=Item.objects.all().first(), marca="HYUNDAI", modelo="SAMS1XY")
     data = {
         "id": equipamiento.id,
         "item": equipamiento.item.id,
@@ -121,6 +119,7 @@ def test_equipamiento_serializer():
 
     assert json.dumps(serialized_object.data) == json.dumps(data), "data serializada no tiene el orden correcto"
     assert serialized_data.errors == {}, f"Errores: {serialized_data.errors}"
+
 
 @pytest.mark.django_db
 def test_quiebre_serializer():
@@ -144,5 +143,6 @@ def test_quiebre_serializer():
 
     assert json.dumps(serialized_object.data) == json.dumps(data), "data serializada no tiene el orden correcto"
     assert (
-        str(serialized_data.errors["non_field_errors"]) == "[ErrorDetail(string='Los campos institucion, medicamento deben formar un conjunto único.', code='unique')]"
+        str(serialized_data.errors["non_field_errors"])
+        == "[ErrorDetail(string='Los campos institucion, medicamento deben formar un conjunto único.', code='unique')]"
     ), f"Errores: {serialized_data.errors}"
