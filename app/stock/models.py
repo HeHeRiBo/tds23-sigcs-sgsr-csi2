@@ -11,7 +11,7 @@ class Lote(models.Model):
     cantidad = models.IntegerField(default=0)
     fecha_vencimiento = models.DateField()
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.codigo
 
 
@@ -20,14 +20,6 @@ class Consumo(models.Model):
     medicamento = models.ForeignKey(Medicamento, on_delete=models.CASCADE)
     cantidad = models.PositiveIntegerField(default=0)
     fecha = models.DateField(default=date.today)
-
-    """
-    def save(self, *args, **kwargs):
-        if self.cantidad < 0:
-            raise IntegrityError("La cantidad de consumo debe ser mayor o igual que cero")
-
-        super().save(*args, **kwargs)
-    """
 
 
 class Stock(models.Model):
@@ -52,13 +44,4 @@ class Movimiento(models.Model):
     lote = models.ForeignKey(Lote, on_delete=models.CASCADE, unique=True)
     fecha = models.DateField(default=date.today)
 
-    """
-    class Meta:
-        unique_together = ('institucion', 'lote')
 
-    def save(self, *args, **kwargs):
-        if Movimiento.objects.filter(lote=self.lote).exists():
-            raise IntegrityError("UNIQUE constraint failed: stock_movimiento.lote_id")
-
-        super().save(*args, **kwargs)
-        """
