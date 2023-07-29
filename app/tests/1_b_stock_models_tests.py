@@ -60,7 +60,7 @@ def test_consumo_model():
 def test_stock_model():
     from stock.models import Stock
 
-    quiebre = Quiebre.objects.all().last()
+    quiebre = Quiebre.objects.all().first()
     fecha = date.today()
 
     s = Stock.objects.create(

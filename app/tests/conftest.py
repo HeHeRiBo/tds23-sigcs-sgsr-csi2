@@ -13,6 +13,6 @@ def django_db_setup(django_db_setup, django_db_blocker):
         call_command("loaddata", "_fixtures/maestro_quiebre.json")
 
         try:
-            call_command("loaddata", "_fixtures/stock.json")
+            call_command("loaddata", "_fixtures/stock_lote.json")
         except Exception:
             pass
