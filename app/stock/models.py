@@ -2,8 +2,6 @@ from django.db import models
 from datetime import date
 from django.db.models.signals import post_save
 from django.dispatch import receiver 
-
-# Usando modelos de maestro, acoplado
 from maestro.models import Institucion, Medicamento
 
 
