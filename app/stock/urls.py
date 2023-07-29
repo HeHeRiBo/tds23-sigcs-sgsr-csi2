@@ -6,7 +6,11 @@
 #     MovimientoLoteRetrieveView,
 #     MovimientoMedicamentoView,
 #     ConsumoListCreateView,
-#     ConsumoRetrieveDestroyVie,
+#     ConsumoRetrieveDestroyView,
+#     ConsumoMedicamentoAPIView,
+#     DisponibilidadMedicamentoAPIView,
+#     QuiebreStockAPIView,
+#     AlertaCaducidadLoteAPIView,
 # )
 
 # app_name = "stock"
@@ -17,5 +21,11 @@
 #     path("movimientos-medicamento", MovimientoMedicamentoView.as_view(), name="movimiento-medicamento-l"),
 #     path("movimientos-medicamento/<int:medicamento>", MovimientoMedicamentoView.as_view(), name="movimiento-medicamento-d"),
 #     path("consumos", ConsumoListCreateView.as_view(), name="consumo-c"),
-#     path("consumos/<int:pk>", ConsumoRetrieveDestroyVie.as_view(), name="consumo-rud"),
+#     path("consumos/<int:pk>", ConsumoRetrieveDestroyView.as_view(), name="consumo-rud"),
+#     path("consumos-medicamento", ConsumoMedicamentoAPIView.as_view(), name="consumo-medicamento-l"),
+#     path("consumos-medicamento/<int:medicamento>", ConsumoMedicamentoAPIView.as_view(), name="consumo-medicamento-d"),
+#     path("disponibilidad-medicamento", DisponibilidadMedicamentoAPIView.as_view(), name="disponibilidad-medicamento-l"),
+#     path("disponibilidad-medicamento/<int:medicamento>", DisponibilidadMedicamentoAPIView.as_view(), name="disponibilidad-medicamento-d"),
+#     path("quiebre-stock", QuiebreStockAPIView.as_view(), name="quiebre-stock"),
+#     path("alerta-caducidad-lote", AlertaCaducidadLoteAPIView.as_view(), name="alerta-caducidad-lote"),
 # ]

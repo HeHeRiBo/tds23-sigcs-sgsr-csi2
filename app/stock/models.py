@@ -12,15 +12,6 @@ class Consumo(models.Model):
 class Stock(models.Model):
     pass
 
-    def upd_cantidad(self):
-        pass
-
-    def upd_has_quiebre(self):
-        pass
-
-    def upd_caducidad(self):
-        pass
-
 
 class Movimiento(models.Model):
     pass

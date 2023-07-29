@@ -6,7 +6,7 @@
     "codigo": "AU_PRMINC_100001_CL_CENABAST_20230710_20240816",
     "medicamento": 26,
     "cantidad": 1000000,
-    "fecha_vencimiento": "2024-08-16"
+    "fecha_vencimiento": "2033-08-16"
   }
 },
 {
@@ -156,7 +156,7 @@
     "codigo": "SA_NAHRD_5j2mDrL9x0xKCl_20230721_20330721",
     "medicamento": 23,
     "cantidad": 450000,
-    "fecha_vencimiento": "2033-07-21"
+    "fecha_vencimiento": "2022-07-21"
   }
 },
 {
@@ -166,7 +166,7 @@
     "codigo": "SE_ASBRD_8N9uLf3P8qfNCl_20230730_20330730",
     "medicamento": 34,
     "cantidad": 775000,
-    "fecha_vencimiento": "2033-07-30"
+    "fecha_vencimiento": "2022-07-30"
   }
 },
 {
@@ -176,7 +176,7 @@
     "codigo": "TR_ABDRG_5p3WLiH4m7eFCl_20230726_20330726",
     "medicamento": 2,
     "cantidad": 575000,
-    "fecha_vencimiento": "2033-07-26"
+    "fecha_vencimiento": "2022-07-26"
   }
 },
 {
@@ -194,9 +194,39 @@
   "pk": 20,
   "fields": {
     "codigo": "ZA_ASCNC_h7S1Yf9T3bMCl_20230731_20330731",
-    "medicamento": 30,
+    "medicamento": 5,
     "cantidad": 500000,
     "fecha_vencimiento": "2033-07-31"
+  }
+},
+{
+  "model": "stock.stock",
+  "pk": 1,
+  "fields": {
+    "institucion": 1,
+    "medicamento": 5,
+    "cantidad": 500,
+    "has_quiebre": true,
+    "fecha_actualizacion": "2023-07-28"
+  }
+},
+{
+  "model": "stock.movimiento",
+  "pk": 1,
+  "fields": {
+    "institucion": 1,
+    "lote": 20,
+    "fecha": "2023-07-28"
+  }
+},
+{
+  "model": "stock.consumo",
+  "pk": 1,
+  "fields": {
+    "institucion": 1,
+    "medicamento": 5,
+    "cantidad": 499500,
+    "fecha": "2023-07-28"
   }
 }
 ]

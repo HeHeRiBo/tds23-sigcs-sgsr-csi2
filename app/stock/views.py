@@ -19,14 +19,5 @@ class ConsumoListCreateView:
     pass
 
 
-class ConsumoRetrieveDestroyVie:
+class ConsumoRetrieveDestroyView:
     pass
-
-
-class ConsumoMedicamentoView:
-    def get():
-        pass
-
-
-# class DisponibilidadMedicamentoView(views.APIView):
-#     pass
