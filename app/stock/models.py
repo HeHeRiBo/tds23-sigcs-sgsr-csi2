@@ -1,5 +1,7 @@
 from django.db import models
 from datetime import date
+from django.db.models.signals import post_save
+from django.dispatch import receiver 
 
 # Usando modelos de maestro, acoplado
 from maestro.models import Institucion, Medicamento
@@ -11,7 +13,7 @@ class Lote(models.Model):
     cantidad = models.IntegerField(default=0)
     fecha_vencimiento = models.DateField()
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.codigo
 
 
@@ -21,14 +23,6 @@ class Consumo(models.Model):
     cantidad = models.PositiveIntegerField(default=0)
     fecha = models.DateField(default=date.today)
 
-    """
-    def save(self, *args, **kwargs):
-        if self.cantidad < 0:
-            raise IntegrityError("La cantidad de consumo debe ser mayor o igual que cero")
-
-        super().save(*args, **kwargs)
-    """
-
 
 class Stock(models.Model):
     institucion = models.ForeignKey(Institucion, on_delete=models.CASCADE)
@@ -37,8 +31,9 @@ class Stock(models.Model):
     has_quiebre = models.BooleanField(default=False)
     fecha_actualizacion = models.DateField(default=date.today)
 
-    def upd_cantidad(self):
-        pass
+    def upd_cantidad(self, cantidad):
+        self.cantidad += cantidad
+        self.save()
 
     def upd_has_quiebre(self):
         pass
@@ -49,16 +44,32 @@ class Stock(models.Model):
 
 class Movimiento(models.Model):
     institucion = models.ForeignKey(Institucion, on_delete=models.CASCADE)
-    lote = models.ForeignKey(Lote, on_delete=models.CASCADE, unique=True)
+    lote = models.OneToOneField(Lote, on_delete=models.CASCADE)
     fecha = models.DateField(default=date.today)
 
-    """
-    class Meta:
-        unique_together = ('institucion', 'lote')
 
-    def save(self, *args, **kwargs):
-        if Movimiento.objects.filter(lote=self.lote).exists():
-            raise IntegrityError("UNIQUE constraint failed: stock_movimiento.lote_id")
+@receiver(post_save, sender=Movimiento)
+def update_stock_after_movimiento(sender, instance, **kwargs):
 
-        super().save(*args, **kwargs)
-        """
+    stock = Stock.objects.create(
+        institucion = instance.institucion,
+        medicamento = instance.lote.medicamento
+    )
+
+    stock = Stock.objects.all().first()
+    stock.upd_cantidad(instance.lote.cantidad)
+    stock.save()
+
+    
+
+@receiver(post_save, sender=Consumo)
+def update_stock_after_consumo(sender, instance, **kwargs):
+    
+    stock = Stock.objects.create(
+        institucion = instance.institucion,
+        medicamento = instance.medicamento
+    )
+
+    stock = Stock.objects.all().first()
+    stock.upd_cantidad(-instance.cantidad)
+    stock.save()
