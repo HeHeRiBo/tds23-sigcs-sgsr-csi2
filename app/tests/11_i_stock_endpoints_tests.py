@@ -31,7 +31,7 @@ def test_list_movimientos(client):
     )
     response = client.get("/stock/movimientos", content_type="application/json")
     assert response.status_code == 200, "endpoint no encontrado"
-    assert len(response.data) == 2, "se agregó más de un movimiento en la base de datos"
+    assert len(response.data) == 1, "se agregó más de un movimiento en la base de datos"
 
 
 @pytest.mark.django_db
@@ -110,8 +110,8 @@ def test_list_consumo(client):
         content_type="application/json",
     )
     response = client.get("/stock/consumos", content_type="application/json")
-    assert response.status_code == 200, "endpoint no encontrado"
-    assert len(response.data) == 2, "se agregó más de un consumo en la base de datos"
+    assert response.status_code == 200, "endpoint no encontrado"    
+    assert len(response.data) == 1, "se agregó más de un consumo en la base de datos"
 
 
 @pytest.mark.django_db
@@ -126,7 +126,7 @@ def test_get_consumo(client):
         content_type="application/json",
     )
     response = client.get("/stock/consumos/1", content_type="application/json")
-    assert response.status_code == 200, "endpoint no encontrado"
+    assert response.status_code == 200, "endpoint no encontrado"    
     assert response.data["id"] == 1, "no se obtuvieron consumos"
 
 

@@ -17,7 +17,7 @@ loaddata:
 	python manage.py loaddata _fixtures/maestro_item.json --settings=app.settings
 	python manage.py loaddata _fixtures/maestro_equipamiento.json --settings=app.settings
 	python manage.py loaddata _fixtures/maestro_quiebre.json --settings=app.settings
-	# python manage.py loaddata _fixtures/stock.json --settings=app.settings
+	python manage.py loaddata _fixtures/stock_lote.json --settings=app.settings
 
 dumpdata:
 	python manage.py dumpdata auth.user --indent 2 > _fixtures/auth_user.json --settings=app.settings
@@ -26,7 +26,7 @@ dumpdata:
 	python manage.py dumpdata maestro.item --indent 2 > _fixtures/maestro_item.json --settings=app.settings
 	python manage.py dumpdata maestro.equipamiento --indent 2 > _fixtures/maestro_equipamiento.json --settings=app.settings
 	python manage.py dumpdata maestro.quiebre --indent 2 > _fixtures/maestro_quiebre.json --settings=app.settings
-	python manage.py dumpdata stock --indent 2 > _fixtures/stock.json --settings=app.settings
+	# python manage.py dumpdata stock.lote --indent 2 > _fixtures/stock_lote.json --settings=app.settings
 
 precommit:
 	black --line-length=140 .
@@ -40,6 +40,7 @@ migrations:
 migrate:
 	rm -f db.sqlite3
 	python manage.py migrate --settings=app.settings
+	make loaddata
 
 update:
 	pur -r requirements.txt
@@ -54,16 +55,3 @@ __test_prepare:
 run_tests:
 	make __test_prepare
 	pytest -vv
-
-
-run_tests_basicos:
-	make __test_prepare
-	pytest -vv -k "_b_"
-
-run_tests_intermedios:
-	make __test_prepare
-	pytest -vv -k "_i_"
-
-run_tests_avanzados:
-	make __test_prepare
-	pytest -vv -k "_a_"
