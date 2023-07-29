@@ -1,9 +1,7 @@
 from django.db import models
 from datetime import date
 from django.db.models.signals import post_save
-from django.dispatch import receiver 
-
-# Usando modelos de maestro, acoplado
+from django.dispatch import receiver
 from maestro.models import Institucion, Medicamento
 
 
@@ -50,25 +48,16 @@ class Movimiento(models.Model):
 
 @receiver(post_save, sender=Movimiento)
 def update_stock_after_movimiento(sender, instance, **kwargs):
-
-    stock = Stock.objects.create(
-        institucion = instance.institucion,
-        medicamento = instance.lote.medicamento
-    )
+    stock = Stock.objects.create(institucion=instance.institucion, medicamento=instance.lote.medicamento)
 
     stock = Stock.objects.all().first()
     stock.upd_cantidad(instance.lote.cantidad)
     stock.save()
 
-    
 
 @receiver(post_save, sender=Consumo)
 def update_stock_after_consumo(sender, instance, **kwargs):
-    
-    stock = Stock.objects.create(
-        institucion = instance.institucion,
-        medicamento = instance.medicamento
-    )
+    stock = Stock.objects.create(institucion=instance.institucion, medicamento=instance.medicamento)
 
     stock = Stock.objects.all().first()
     stock.upd_cantidad(-instance.cantidad)
