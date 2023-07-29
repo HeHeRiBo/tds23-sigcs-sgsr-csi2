@@ -6,7 +6,12 @@ from .views import (
     MovimientoLoteRetrieveView,
     MovimientoMedicamentoView,
     ConsumoListCreateView,
-    ConsumoRetrieveDestroyVie,
+    ConsumoRetrieveDestroyView,
+    ConsumoMedicamentoView,
+    DisponibilidadMedicamentoView,
+    DisponibilidadMedicamentoDetailView,
+    QuiebreStockView,
+    AlertaCaducidadLoteView,
 )
 
 app_name = "stock"
@@ -17,5 +22,11 @@ urlpatterns = [
     path("movimientos-medicamento", MovimientoMedicamentoView.as_view(), name="movimiento-medicamento-l"),
     path("movimientos-medicamento/<int:medicamento>", MovimientoMedicamentoView.as_view(), name="movimiento-medicamento-d"),
     path("consumos", ConsumoListCreateView.as_view(), name="consumo-c"),
-    path("consumos/<int:pk>", ConsumoRetrieveDestroyVie.as_view(), name="consumo-rud"),
+    path("consumos/<int:pk>", ConsumoRetrieveDestroyView.as_view(), name="consumo-rud"),
+    path("consumos-medicamento", ConsumoMedicamentoView.as_view(), name="consumo-medicamento-l"),
+    path("consumos-medicamento/<int:medicamento>", ConsumoMedicamentoView.as_view(), name="consumo-medicamento-d"),
+    path("disponibilidad-medicamento", DisponibilidadMedicamentoView.as_view(), name="disponibilidad-medicamento-l"),
+    path("disponibilidad-medicamento/<int:medicamento_id>", DisponibilidadMedicamentoDetailView.as_view(), name="disponibilidad-medicamento-d"),
+    path("quiebre-stock", QuiebreStockView.as_view(), name="quiebre-stock"),
+    path("alerta-caducidad-lote", AlertaCaducidadLoteView.as_view(), name="alerta-caducidad-lote"),
 ]

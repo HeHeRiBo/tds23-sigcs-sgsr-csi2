@@ -1,5 +1,7 @@
 from django.db import models
 from datetime import date
+from django.db.models.signals import post_save
+from django.dispatch import receiver 
 
 # Usando modelos de maestro, acoplado
 from maestro.models import Institucion, Medicamento
@@ -29,8 +31,9 @@ class Stock(models.Model):
     has_quiebre = models.BooleanField(default=False)
     fecha_actualizacion = models.DateField(default=date.today)
 
-    def upd_cantidad(self):
-        pass
+    def upd_cantidad(self, cantidad):
+        self.cantidad += cantidad
+        self.save()
 
     def upd_has_quiebre(self):
         pass
@@ -45,3 +48,28 @@ class Movimiento(models.Model):
     fecha = models.DateField(default=date.today)
 
 
+@receiver(post_save, sender=Movimiento)
+def update_stock_after_movimiento(sender, instance, **kwargs):
+
+    stock = Stock.objects.create(
+        institucion = instance.institucion,
+        medicamento = instance.lote.medicamento
+    )
+
+    stock = Stock.objects.all().first()
+    stock.upd_cantidad(instance.lote.cantidad)
+    stock.save()
+
+    
+
+@receiver(post_save, sender=Consumo)
+def update_stock_after_consumo(sender, instance, **kwargs):
+    
+    stock = Stock.objects.create(
+        institucion = instance.institucion,
+        medicamento = instance.medicamento
+    )
+
+    stock = Stock.objects.all().first()
+    stock.upd_cantidad(-instance.cantidad)
+    stock.save()
