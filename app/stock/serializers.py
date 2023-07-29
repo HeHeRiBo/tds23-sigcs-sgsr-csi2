@@ -21,14 +21,6 @@ class StockSerializer(serializers.ModelSerializer):
 
 
 class MovimientoSerializer(serializers.ModelSerializer):
-    # No se si esta bien hacerlo asi
-    """
-    lote = serializers.PrimaryKeyRelatedField(
-        queryset=Lote.objects.all(),
-        validators=[UniqueValidator(queryset=Movimiento.objects.all(), message='Ya existe movimiento con este lote.')]
-    )
-    """
-
     class Meta:
         model = Movimiento
         fields = ["id", "institucion", "lote", "fecha"]
