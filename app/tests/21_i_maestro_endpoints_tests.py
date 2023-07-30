@@ -60,6 +60,7 @@ def test_list_medicamentos(client):
             "fabricante": "SAVAL",
             "informacion_almacenamiento": "Guardar en un lugar fresco y oscuro",
             "interacciones_medicamentosas": "No tomar con alcohol",
+
         },
         content_type="application/json",
     )
@@ -87,6 +88,7 @@ def test_get_medicamentos(client):
             "fabricante": "SAVAL",
             "informacion_almacenamiento": "Guardar en un lugar fresco y oscuro",
             "interacciones_medicamentosas": "No tomar con alcohol",
+
         },
         content_type="application/json",
     )
@@ -100,6 +102,7 @@ def test_delete_medicamentos(client):
     client.post(
         "/maestro/medicamentos",
         {
+
             "nombre_comercial": "Panadol",
             "nombre_generico": "Paracetamol",
             "ingredientes": "Ácido Acetil Acetílico",
@@ -130,6 +133,7 @@ def test_add_medicamento_invalid_json(client):
     response = client.post(
         "/maestro/medicamentos",
         {
+
             "id_nombre_comercial": "Panadol",
             "nombre_generico": "Paracetamol",
             "ingredientes": "Ácido Acetil Acetílico",
@@ -148,6 +152,7 @@ def test_add_medicamento_invalid_json(client):
         content_type="application/json",
     )
     assert response.status_code == 400, "endpoint no encontrado / no se debe permitir data mal formada"
+
 
 
 @pytest.mark.django_db
@@ -184,6 +189,7 @@ def test_list_instituciones(client):
             "num_camas_uti": 10,
             "num_camas_uci": 5,
             "factor": 0.5,
+
         },
         content_type="application/json",
     )
@@ -238,6 +244,7 @@ def test_add_institucion_invalid_json(client):
     response = client.post(
         "/maestro/instituciones",
         {
+
             "id_nombre": "Hospital felix bulnes de prado y ochagavia",
             "tipo": Institucion.Tipo.HOSPITAL,
             "titularidad": Institucion.Titularidad.PUBLICO,
@@ -250,11 +257,13 @@ def test_add_institucion_invalid_json(client):
     assert response.status_code == 400, "endpoint no encontrado / no se debe permitir data mal formada"
 
 
+
 @pytest.mark.django_db
 def test_add_equipamientos(client):
     response = client.post(
         "/maestro/equipamientos",
         {"item": 1, "marca": "HYUNDAI", "modelo": "SAMS1XY"},
+
         content_type="application/json",
     )
     assert response.status_code == 201, "endpoint no encontrado"
@@ -263,11 +272,14 @@ def test_add_equipamientos(client):
     assert response.data["modelo"] == "SAMS1XY"
 
 
+
 @pytest.mark.django_db
 def test_list_equipamientos(client):
     client.post(
         "/maestro/equipamientos",
+
         {"item": 1, "marca": "HYUNDAI", "modelo": "SAMS1XY"},
+
         content_type="application/json",
     )
     response = client.get("/maestro/equipamientos", content_type="application/json")
@@ -280,6 +292,7 @@ def test_get_equipamientos(client):
     client.post(
         "/maestro/equipamientos",
         {"item": 1, "marca": "HYUNDAI", "modelo": "SAMS1XY"},
+
         content_type="application/json",
     )
     response = client.get("/maestro/equipamientos/23", content_type="application/json")
@@ -291,6 +304,7 @@ def test_get_equipamientos(client):
 def test_delete_equipamientos(client):
     client.post(
         "/maestro/equipamientos",
+
         {"item": 1, "marca": "HYUNDAI", "modelo": "SAMS1XY"},
         content_type="application/json",
     )
@@ -310,3 +324,4 @@ def test_add_equipamiento_invalid_json(client):
         content_type="application/json",
     )
     assert response.status_code == 400, "endpoint no encontrado / no se debe permitir data mal formada"
+

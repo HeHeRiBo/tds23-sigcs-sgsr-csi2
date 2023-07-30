@@ -62,3 +62,4 @@ def update_stock_after_consumo(sender, instance, **kwargs):
     stock = Stock.objects.all().first()
     stock.upd_cantidad(-instance.cantidad)
     stock.save()
+

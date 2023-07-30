@@ -8,6 +8,7 @@ from maestro.models import Item, Institucion, Medicamento
 def test_institucion_model():
     from maestro.models import Institucion
 
+
     institucion = Institucion.objects.create(
         nombre="Hospital felix bulnes de prado y ochagavia",
         tipo=Institucion.Tipo.HOSPITAL,
@@ -17,14 +18,17 @@ def test_institucion_model():
         factor=0.5,
     )
 
+
     assert institucion.tipo == Institucion.Tipo.HOSPITAL, "El tipo elegido debe estar dentro de la lista"
     assert institucion.titularidad == Institucion.Titularidad.PUBLICO, "La titularidad elegida debe estar dentro de la lista"
     assert len(institucion.nombre) <= 255, "El largo máximo del nombre es 255 carácteres"
 
     factor = Institucion._meta.get_field("factor")
+
     assert isinstance(factor, models.FloatField), "El campo debe ser Float"
 
     assert str(institucion) == institucion.nombre, "se debe usar el nombre de la institución como la representación str del objeto"
+
 
     institucion.num_camas_uci = -5
     institucion.num_camas_uti = -5
@@ -69,7 +73,6 @@ def test_medicamento_model():
         str(medicamento) == f"{medicamento.nombre_comercial} ({medicamento.nombre_generico}) | {medicamento.fabricante}"
     ), "se debe usar la concatenación como representación str del objeto"
 
-
 @pytest.mark.django_db
 def test_item_model():
     from maestro.models import Item
@@ -80,7 +83,9 @@ def test_item_model():
     )
 
     assert item.tipo == Item.Tipo.SOPORTE_VITAL, "El item elegido debe estar dentro de la lista"
+
     assert str(item) == f"{item.nombre} ({item.tipo})", "se debe usar la concatenación como representación str del objeto"
+
 
 
 @pytest.mark.django_db
@@ -96,6 +101,7 @@ def test_equipamiento_model():
         str(equipamiento) == f"{equipamiento.modelo} ({equipamiento.modelo}) | {equipamiento.item}"
     ), "se debe usar la concatenación como representación str del objeto"
 
+
     equipamiento.item.delete()
     assert Item.objects.filter(id=equipamiento.id).first() is None, "eliminar item debe eliminar equipamiento en cascada"
 
@@ -103,6 +109,7 @@ def test_equipamiento_model():
 @pytest.mark.django_db
 def test_quiebre_model():
     from maestro.models import Quiebre
+
 
     institucion = Institucion.objects.all().first()
     medicamento = Medicamento.objects.all().first()
@@ -122,3 +129,4 @@ def test_quiebre_model():
     assert (
         str(exc_info.value) == "UNIQUE constraint failed: maestro_quiebre.institucion_id, maestro_quiebre.medicamento_id"
     ), "no puede haber más de un registro por institución, medicamente"
+
